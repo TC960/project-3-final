@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Analytics | EEG Visualization</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cumulative-chart.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app-container">
+    <!-- Main Content Area -->
+    <div class="content-container">
+      <!-- Left Section -->
+      <main class="main-content">
+        <!-- Tab Navigation -->
+        <div class="visualization-tabs">
+          <button class="tab-btn active" id="brain-view-tab">3D Brain View</button>
+          <button class="tab-btn" id="cumulative-plot-tab">Cumulative Plot</button>
+        </div>
+
+        <!-- 3D Brain Visualization -->
+        <div class="card brain-card tab-content active" id="brain-view-content">
+          <div class="card-header">
+            <h2>3D Brain Activity</h2>
+            <div class="controls">
+              <button class="btn-icon"><i class="fas fa-expand"></i></button>
+              <button class="btn-icon"><i class="fas fa-rotate"></i></button>
+            </div>
+          </div>
+          <div id="brain-container" class="card-content">
+            <!-- 3D Brain will be rendered here by brainViewer.js -->
+          </div>
+        </div>
+
+        <!-- Cumulative Plot -->
+        <div class="card chart-card tab-content" id="cumulative-plot-content">
+          <div class="card-header">
+            <h2>Multi-Channel EEG Analysis</h2>
+            <div class="controls">
+              <button class="btn-icon" id="refresh-chart"><i class="fas fa-sync-alt"></i></button>
+              <button class="btn-icon" id="reset-zoom"><i class="fas fa-compress"></i></button>
+            </div>
+          </div>
+          <div id="cumulative-chart-container" class="card-content">
+            <!-- Multi-channel EEG chart will be rendered here -->
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Section - Info Panel -->
+      <aside id="info-panel">
+        <div class="card">
+          <div class="card-header">
+            <h2>EEG Channels</h2>
+          </div>
+          <div class="card-content">
+            <div class="channel-list">
+              <div class="channel-item">
+                <div class="channel-dot" style="background-color: #4F8CFF;"></div>
+                <span class="channel-name">TP9</span>
+                <span class="channel-value positive">37.60</span>
+              </div>
+              <div class="channel-item">
+                <div class="channel-dot" style="background-color: #4ECDC4;"></div>
+                <span class="channel-name">AF7</span>
+                <span class="channel-value positive">15.63</span>
+              </div>
+              <div class="channel-item">
+                <div class="channel-dot" style="background-color: #FFB865;"></div>
+                <span class="channel-name">AF8</span>
+                <span class="channel-value positive">9.28</span>
+              </div>
+              <div class="channel-item">
+                <div class="channel-dot" style="background-color: #FF6B6B;"></div>
+                <span class="channel-name">TP10</span>
+                <span class="channel-value negative">-116.21</span>
+              </div>
+              <div class="channel-item">
+                <div class="channel-dot" style="background-color: #C788E5;"></div>
+                <span class="channel-name">Right AUX</span>
+                <span class="channel-value positive">57.13</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>About</h2>
+          </div>
+          <div class="card-content">
+            <p>This visualizer displays real-time EEG data on a 3D brain model. The colored dots represent electrodes, with size and color changing based on signal intensity.</p>
+            
+            <div class="info-item">
+              <span class="info-label">Data Source:</span>
+              <span class="info-value">Experiment_1/A1</span>
+            </div>
+            
+            <div class="info-item">
+              <span class="info-label">Interactions:</span>
+              <span class="info-value">Click and drag to rotate, scroll to zoom.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Signal Legend</h2>
+          </div>
+          <div class="card-content">
+            <div class="legend">
+              <div class="legend-gradient"></div>
+              <div class="legend-labels">
+                <span>Low</span>
+                <span>High</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Bottom Chart Section -->
+    <div id="line-chart-container">
+      <div class="chart-header">
+        <div class="chart-title-area">
+          <h2>EEG Data Analysis</h2>
+          <p class="chart-subtitle">Real-time amplitude visualization</p>
+        </div>
+        <div class="chart-controls">
+          <div class="control-group">
+            <label for="participant-selector">Participant:</label>
+            <select id="participant-selector" class="form-control">
+              <option value="A1">Participant A1</option>
+              <option value="A2">Participant A2</option>
+              <option value="A3">Participant A3</option>
+              <option value="B1" selected>Participant B1</option>
+              <option value="B2">Participant B2</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="channel-selector">Channel:</label>
+            <select id="channel-selector" class="form-control">
+              <option value="TP9" selected>TP9</option>
+              <option value="AF7">AF7</option>
+              <option value="AF8">AF8</option>
+              <option value="TP10">TP10</option>
+              <option value="Right AUX">Right AUX</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <button id="zoom-reset" class="btn btn-outline btn-sm">
+              <i class="fas fa-arrows-alt"></i> Reset Zoom
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="eeg-chart-svg-container">
+        <!-- D3 SVG chart will be rendered here -->
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Loading brain model and EEG data...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.7.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="module" src="brainViewer.js"></script>
+    <script type="module" src="d3viz.js"></script>
+    <script type="module" src="lineChart.js"></script>
+    <script type="module" src="cumulativeChart.js"></script>
+  </div>
+
+  <!-- Tab switching script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const brainViewTab = document.getElementById('brain-view-tab');
+      const cumulativePlotTab = document.getElementById('cumulative-plot-tab');
+      const brainViewContent = document.getElementById('brain-view-content');
+      const cumulativePlotContent = document.getElementById('cumulative-plot-content');
+      const appContainer = document.getElementById('app-container');
+      const lineChartContainer = document.getElementById('line-chart-container');
+
+      // Function to activate brain view tab
+      function activateBrainView() {
+        // Update tabs
+        brainViewTab.classList.add('active');
+        cumulativePlotTab.classList.remove('active');
+        
+        // Update content
+        brainViewContent.classList.add('active');
+        cumulativePlotContent.classList.remove('active');
+        
+        // Show bottom chart
+        lineChartContainer.style.display = 'block';
+        
+        // Update body class
+        appContainer.classList.remove('cumulative-active');
+      }
+      
+      // Function to activate cumulative plot tab
+      function activateCumulativePlot() {
+        // Update tabs
+        brainViewTab.classList.remove('active');
+        cumulativePlotTab.classList.add('active');
+        
+        // Update content
+        brainViewContent.classList.remove('active');
+        cumulativePlotContent.classList.add('active');
+        
+        // Hide bottom chart
+        lineChartContainer.style.display = 'none';
+        
+        // Update body class
+        appContainer.classList.add('cumulative-active');
+      }
+      
+      // Add click event listeners
+      brainViewTab.addEventListener('click', activateBrainView);
+      cumulativePlotTab.addEventListener('click', activateCumulativePlot);
+      
+      // Initial state
+      if (brainViewTab.classList.contains('active')) {
+        activateBrainView();
+      } else if (cumulativePlotTab.classList.contains('active')) {
+        activateCumulativePlot();
+      }
+    });
+  </script>
+</body>
+</html>

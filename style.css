@@ -1,0 +1,661 @@
+/* Refined Modern Style for Brain Analytics */
+:root {
+  /* Professional color palette */
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --primary-dark: #4f46e5;
+  --accent: #f472b6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --light: #f9fafb;
+  --dark: #1f2937;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  
+  /* Electrode colors */
+  --electrode-tp9: #4F8CFF;
+  --electrode-af7: #4ECDC4;
+  --electrode-af8: #FFB865;
+  --electrode-tp10: #FF6B6B;
+  --electrode-raux: #C788E5;
+  
+  /* Refined gradients */
+  --gradient-bg: linear-gradient(135deg, #f5f7fa 0%, #e9effd 100%);
+  --gradient-primary: linear-gradient(135deg, #5a67d8 0%, #6366f1 100%);
+  --gradient-header: linear-gradient(90deg, #f6f9fc 0%, #f1f4f9 100%);
+  
+  /* Enhanced shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  
+  /* Border radius */
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: var(--gradient-bg);
+  color: var(--gray-800);
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Navigation */
+#main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  background-color: white;
+  height: 64px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-icon {
+  font-size: 1.5rem;
+  color: var(--primary);
+  background: linear-gradient(135deg, #5e60ce 0%, #7400b8 100%);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brand-name {
+  font-weight: 700;
+  color: var(--gray-900);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.brand-subtitle {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--gray-500);
+  letter-spacing: 0.03em;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li a {
+  color: var(--gray-700);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.nav-menu li a:hover, .nav-menu li.active a {
+  color: var(--primary);
+}
+
+.nav-menu li.active a::after {
+  content: '';
+  position: absolute;
+  bottom: -22px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+}
+
+.nav-right {
+  gap: 0.75rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: white;
+  border: 1px solid var(--gray-200);
+  color: var(--gray-700);
+}
+
+.btn-outline:hover {
+  border-color: var(--gray-300);
+  background-color: var(--gray-50);
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  background-color: white;
+  color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+}
+
+.btn-icon:hover {
+  background-color: var(--gray-50);
+  color: var(--gray-800);
+}
+
+/* Content layout */
+.content-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  background-color: #f8fafc;
+}
+
+.main-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+#info-panel {
+  width: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Cards */
+.card {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray-100);
+}
+
+.brain-card {
+  height: calc(100vh - 320px);
+  position: relative;
+}
+
+.card-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--gray-100);
+  background-color: var(--gradient-header);
+}
+
+.card-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin: 0;
+}
+
+.card-content {
+  padding: 1.25rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Channel list */
+.channel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0.25rem 0;
+}
+
+.channel-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.channel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+}
+
+/* Apply specific colors to channel dots */
+.channel-item:nth-child(1) .channel-dot {
+  background-color: var(--electrode-tp9);
+}
+
+.channel-item:nth-child(2) .channel-dot {
+  background-color: var(--electrode-af7);
+}
+
+.channel-item:nth-child(3) .channel-dot {
+  background-color: var(--electrode-af8);
+}
+
+.channel-item:nth-child(4) .channel-dot {
+  background-color: var(--electrode-tp10);
+}
+
+.channel-item:nth-child(5) .channel-dot {
+  background-color: var(--electrode-raux);
+}
+
+.channel-name {
+  flex: 1;
+  font-weight: 500;
+  color: var(--gray-700);
+  font-size: 0.95rem;
+}
+
+.channel-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+.channel-value.positive {
+  color: #10b981;
+}
+
+.channel-value.negative {
+  color: #ef4444;
+}
+
+/* Channel values - apply to specific channels */
+.channel-item:nth-child(1) .channel-value {
+  color: var(--electrode-tp9);
+}
+
+.channel-item:nth-child(2) .channel-value {
+  color: var(--electrode-af7);
+}
+
+.channel-item:nth-child(3) .channel-value {
+  color: var(--electrode-af8);
+}
+
+.channel-item:nth-child(4) .channel-value {
+  color: var(--electrode-tp10);
+}
+
+.channel-item:nth-child(5) .channel-value {
+  color: var(--electrode-raux);
+}
+
+/* Info items */
+.info-item {
+  margin-top: 0.75rem;
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--gray-600);
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.info-value {
+  color: var(--gray-800);
+  font-size: 0.875rem;
+}
+
+/* Legend */
+.legend {
+  margin-top: 0.75rem;
+}
+
+.legend-gradient {
+  height: 12px;
+  background: linear-gradient(to right, #4361ee, #7209b7, #f72585);
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+}
+
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--gray-600);
+}
+
+/* Brain container */
+#brain-container {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+/* Line chart container */
+#line-chart-container {
+  height: 240px;
+  background-color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray-100);
+  margin-top: 1.5rem;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chart-title-area h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.25rem;
+  margin-top: 0;
+}
+
+.chart-subtitle {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+}
+
+.chart-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.control-group label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--gray-600);
+}
+
+.form-control {
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+  background-color: white;
+  color: var(--gray-800);
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.form-control:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+#eeg-chart-svg-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* SVG styles for the D3 chart */
+.axis text {
+  font-size: 10px;
+  fill: var(--gray-500);
+  font-family: 'Inter', sans-serif;
+}
+
+.axis line,
+.axis path {
+  stroke: var(--gray-200);
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+/* Line colors for each channel */
+.line-TP9 { stroke: var(--electrode-tp9); }
+.line-AF7 { stroke: var(--electrode-af7); }
+.line-AF8 { stroke: var(--electrode-af8); }
+.line-TP10 { stroke: var(--electrode-tp10); }
+.line-Right-AUX { stroke: var(--electrode-raux); }
+
+.area {
+  opacity: 0.1;
+}
+
+.area-TP9 { fill: var(--electrode-tp9); }
+.area-AF7 { fill: var(--electrode-af7); }
+.area-AF8 { fill: var(--electrode-af8); }
+.area-TP10 { fill: var(--electrode-tp10); }
+.area-Right-AUX { fill: var(--electrode-raux); }
+
+/* Loading indicator */
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--gray-200);
+  border-radius: var(--radius-full);
+  border-top-color: var(--primary);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .content-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  #info-panel {
+    width: 280px;
+  }
+  
+  .brain-card {
+    height: calc(100vh - 300px);
+  }
+}
+
+@media (max-width: 992px) {
+  .content-container {
+    flex-direction: column;
+  }
+  
+  #info-panel {
+    width: 100%;
+    height: auto;
+  }
+  
+  .brain-card {
+    height: 50vh;
+  }
+  
+  #line-chart-container {
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+  
+  .chart-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  #line-chart-container {
+    padding: 0.75rem;
+    height: 200px;
+  }
+}
+/* Tab navigation styles */
+.visualization-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  background-color: white;
+  color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  background-color: var(--gray-50);
+}
+
+.tab-btn.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: flex;
+}
+
+#cumulative-chart-container {
+  width: 100%;
+  height: 100%;
+}

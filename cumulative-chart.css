@@ -1,0 +1,195 @@
+/* Hide the info panel when cumulative is active */
+.cumulative-active #info-panel {
+    display: none !important;
+  }
+  
+  /* Make the main content full width when cumulative is active */
+  .cumulative-active .main-content {
+    width: 100%;
+  }/* cumulative-chart.css - Dedicated styles for the cumulative chart view */
+  
+  /* Tab navigation styles */
+  .visualization-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .tab-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #f1f5f9;
+    color: #475569;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .tab-btn:hover {
+    background-color: #e2e8f0;
+  }
+  
+  .tab-btn.active {
+    background-color: #6366f1;
+    color: white;
+  }
+  
+  /* Tab content display management */
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Hide the bottom chart when cumulative plot is active */
+  .cumulative-active #line-chart-container {
+    display: none;
+  }
+  
+  /* Cumulative chart container */
+  #cumulative-chart-container {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  /* Channel toggles within the cumulative chart */
+  .channel-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    justify-content: center;
+  }
+  
+  .channel-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .channel-toggle-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  /* Make the chart card take full screen when active */
+  .chart-card.active {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .chart-card.active .card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Tooltip styling */
+  .tooltip {
+    position: absolute;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 100;
+  }
+  
+  /* Channel toggle styling */
+  .cumulative-channel-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  
+  .cumulative-channel-toggle input[type="checkbox"] {
+    margin: 0;
+  }
+  
+  .cumulative-channel-toggle:hover {
+    background-color: #f8fafc;
+  }
+  
+  .cumulative-channel-toggle.active {
+    border-color: currentColor;
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  .channel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  /* Header for the EEG visualization */
+  .eeg-header {
+    margin-bottom: 12px;
+  }
+  
+  .eeg-header h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .eeg-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  /* Specific colors for each channel */
+  .tp9-color { color: #4F8CFF; background-color: rgba(79, 140, 255, 0.1); border-color: #4F8CFF; }
+  .af7-color { color: #4ECDC4; background-color: rgba(78, 205, 196, 0.1); border-color: #4ECDC4; }
+  .af8-color { color: #FFB865; background-color: rgba(255, 184, 101, 0.1); border-color: #FFB865; }
+  .tp10-color { color: #FF6B6B; background-color: rgba(255, 107, 107, 0.1); border-color: #FF6B6B; }
+  .aux-color { color: #C788E5; background-color: rgba(199, 136, 229, 0.1); border-color: #C788E5; }
+  .avg-color { color: #333333; background-color: rgba(51, 51, 51, 0.1); border-color: #333333; }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .cumulative-channel-toggle {
+      padding: 3px 8px;
+      font-size: 12px;
+    }
+    
+    .channel-toggles {
+      gap: 6px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .channel-toggles {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
