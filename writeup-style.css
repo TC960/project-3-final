@@ -1,0 +1,117 @@
+/* writeup-style.css - Updated to match the provided screenshots */
+
+/* Container background matching the screenshot */
+#writeup-content-container {
+  background: #f6f9ff;
+  color: #4a5568;
+  line-height: 1.6;
+  border-radius: 0.75rem;
+  padding: 1.5rem 2rem;
+  position: relative;
+}
+
+/* Remove any default margins */
+#writeup-content-container > *:first-child {
+  margin-top: 0;
+}
+
+/* Section container for better spacing control */
+.writeup-section {
+  margin-bottom: 2rem;
+}
+
+/* Style headings to match the screenshots exactly */
+.section-heading {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 1.5rem 0 1.25rem 0;
+}
+
+/* Create the teal circle for each heading */
+.heading-circle {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #8ce6d9;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+/* Style paragraphs to match screenshots */
+#writeup-content-container p {
+  color: #4a5568;
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Card style for the first paragraph in Design Rationale */
+.content-card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1rem 0 1.5rem 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Simple paragraphs should have proper spacing */
+.writeup-section > p {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* No special styling for motivation - keep it clean like screenshots */
+.motivation-block {
+  margin: 1rem 0;
+}
+
+/* Use proper spacing */
+.section-divider {
+  height: 1px;
+  opacity: 0; /* Make dividers invisible as they don't appear in screenshots */
+  margin: 1.5rem 0;
+}
+
+/* Format challenges in the development process */
+.challenge-text {
+  margin-bottom: 0.5rem;
+}
+
+/* Loading indicator */
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.spinner {
+  width: 35px;
+  height: 35px;
+  border: 3px solid rgba(140, 230, 217, 0.2);
+  border-top: 3px solid #8ce6d9;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error message */
+.error-message {
+  padding: 1rem;
+  text-align: center;
+  color: #e53e3e;
+  background-color: rgba(254, 215, 215, 0.5);
+  border-radius: 0.375rem;
+  font-weight: 500;
+}
