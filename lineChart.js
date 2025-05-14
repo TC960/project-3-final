@@ -154,10 +154,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
     
+    // Add clipping path
+    svg.append("defs")
+      .append("clipPath")
+      .attr("id", "eeg-clip")
+      .append("rect")
+      .attr("width", innerWidth)
+      .attr("height", innerHeight);
+
     // Create chart group
     const g = svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
-    
+
+    const plotGroup = g.append('g')
+      .attr('clip-path', 'url(#eeg-clip)');
+
     // Create scales
     const xScale = d3.scaleLinear()
       .domain([0, d3.max(eegData, d => d.timestamp)])
@@ -208,14 +219,14 @@ document.addEventListener('DOMContentLoaded', function() {
       .curve(d3.curveMonotoneX);
     
     // Add the area path
-    g.append('path')
+    plotGroup.append('path')
       .datum(eegData)
       .attr('class', 'area')
       .attr('d', area)
       .attr('fill', `url(#area-gradient)`);
     
     // Add the line path
-    g.append('path')
+    plotGroup.append('path')
       .datum(eegData)
       .attr('class', 'line')
       .attr('d', line)
@@ -224,9 +235,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add zoom behavior
     const zoom = d3.zoom()
       .scaleExtent([1, 8])
+      .translateExtent([[0, 0], [innerWidth, innerHeight]])
       .extent([[0, 0], [innerWidth, innerHeight]])
       .on('zoom', zoomed);
-    
+
     // Add zoom rect
     svg.append('rect')
       .attr('width', width)
@@ -239,8 +251,15 @@ document.addEventListener('DOMContentLoaded', function() {
       isZoomed = true;
       
       // Create new scales based on zoom event
-      const newXScale = event.transform.rescaleX(xScale);
-      
+      let newXScale = event.transform.rescaleX(xScale);
+      const [xMin, xMax] = xScale.domain();
+      newXScale = d3.scaleLinear()
+        .domain([
+          Math.max(xMin, newXScale.domain()[0]),
+          Math.min(xMax, newXScale.domain()[1])
+        ])
+        .range(xScale.range());
+
       // Update axes
       g.select('.x-axis').call(d3.axisBottom(newXScale)
         .ticks(5)
@@ -248,10 +267,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .tickFormat(d => `${d}ms`));
       
       // Update line and area
-      g.select('.line')
+      plotGroup.select('.line')
         .attr('d', line.x(d => newXScale(d.timestamp)));
       
-      g.select('.area')
+      plotGroup.select('.area')
         .attr('d', area.x(d => newXScale(d.timestamp)));
     }
     
