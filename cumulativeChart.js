@@ -56,6 +56,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
+  const refreshChartButton = document.getElementById('refresh-chart');
+  if (refreshChartButton) {
+    refreshChartButton.addEventListener('click', () => {
+      if (window.cumulativeChart) {
+        const prevTransform = window.cumulativeChart.currentTransform || d3.zoomIdentity;
+        const newData = generateEEGData();
+        window.cumulativeChart.data = newData;
+        renderChart(newData, window.cumulativeChart.channels, prevTransform);
+      }
+    });
+  }
+
   console.log("Multi-Channel EEG Chart initialized successfully");
 });
 
@@ -194,13 +206,14 @@ function setupChannelToggleListeners() {
       }
       
       // Re-render chart
-      renderChart(window.cumulativeChart.data, window.cumulativeChart.channels);
+      const currentTransform = window.cumulativeChart.currentTransform || d3.zoomIdentity;
+      renderChart(window.cumulativeChart.data, window.cumulativeChart.channels, currentTransform);
     });
   });
 }
 
 // Render D3 chart
-function renderChart(data, channels) {
+function renderChart(data, channels, transform = d3.zoomIdentity) {
   // Set up the svg
   const svg = d3.select('#cumulative-svg');
   svg.selectAll('*').remove(); // Clear previous content
@@ -221,6 +234,18 @@ function renderChart(data, channels) {
     .attr('height', containerHeight)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
+
+  // Add clipping path
+  svg.append("defs")
+    .append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+  // Add a separate group for clipped content
+  const clippedGroup = chart.append("g")
+    .attr("clip-path", "url(#clip)");
   
   // Create scales
   const xScale = d3.scaleLinear()
@@ -282,7 +307,7 @@ function renderChart(data, channels) {
   // Add axes
   chart.append('g')
     .attr('class', 'x-axis')
-    .attr('transform', `translate(0,${height})`)
+    .attr('transform', `translate(0,${yScale(0)})`)
     .call(d3.axisBottom(xScale).ticks(10).tickFormat(d => `${d}`));
   
   chart.append('g')
@@ -331,14 +356,14 @@ function renderChart(data, channels) {
     }));
     
     // Draw confidence interval area
-    chart.append('path')
+    clippedGroup.append('path')
       .datum(channelData)
       .attr('fill', channel.color)
       .attr('fill-opacity', 0.2)
       .attr('d', area);
     
     // Draw line
-    chart.append('path')
+    clippedGroup.append('path')
       .datum(channelData)
       .attr('fill', 'none')
       .attr('stroke', channel.color)
@@ -471,17 +496,27 @@ function renderChart(data, channels) {
   // Add zoom behavior
   const zoom = d3.zoom()
     .scaleExtent([1, 8])
+    .translateExtent([[0, 0], [width, height]])
     .extent([[0, 0], [width, height]])
     .on('zoom', zoomed);
   
   svg.call(zoom);
-  
-  // Store zoom in global variable for reset button
   window.cumulativeChart.zoom = zoom;
+  svg.call(zoom.transform, transform); // apply transform AFTER assigning zoom
+  window.cumulativeChart.currentTransform = transform;
   
   function zoomed(event) {
+    window.cumulativeChart.currentTransform = event.transform;
+
     // Create new scales based on event
-    const newXScale = event.transform.rescaleX(xScale);
+    let newXScale = event.transform.rescaleX(xScale);
+    const [xMin, xMax] = xScale.domain();
+    newXScale = d3.scaleLinear()
+      .domain([
+        Math.max(xMin, newXScale.domain()[0]),
+        Math.min(xMax, newXScale.domain()[1])
+      ])
+      .range(xScale.range());
     
     // Update axes
     chart.select('.x-axis').call(d3.axisBottom(newXScale).tickFormat(d => `${d}`));
