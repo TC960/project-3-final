@@ -19,6 +19,35 @@
         <div class="visualization-tabs">
           <button class="tab-btn active" id="brain-view-tab">3D Brain View</button>
           <button class="tab-btn" id="cumulative-plot-tab">Cumulative Plot</button>
+          <button class="tab-btn" id="project-writeup-tab">Project Writeup</button>
+        </div>
+
+        <!-- Project Writeup -->
+        <div class="card tab-content" id="project-writeup-content">
+          <div class="card-header">
+            <h2>Project 3 Writeup</h2>
+          </div>
+          <div class="card-content" style="max-height: 80vh; overflow-y: auto; line-height: 1.6; font-size: 14px;">
+            <h3>Design Rationale</h3>
+            <p>Trying to understand the data ourselves, we observed the questions we asked while trying to visually imagine the data. We wanted to know more about the data collection itself for something that seemed so abstract to us like brain activity. Reading into it, we realised that it helped us internalise the data better and thus wanted to depict it for viewers to gauge the working and results of the experiment. Then we used movement in each channel bubble to represent the data collected by varying the size of the bubble. Hence, some bubbles that seem to be more jittery convey more variety in consecutive data points and the amount of the change in sizes represent varying intensity.</p>
+            <br>
+            <p>We maintained the colour legend throughout our project to ensure uniformity and ease for an audience to follow through each of the tabs by tracking the colour of the channels they are observing. Additionally, we used interactions to make it easier to examine the data in our visualization by including features like zooming in to all visualisations and rotating the 3D brain model to make it feel as close to a real life physical simulation as possible. We also discarded our idea for creating a legend for the size of the channel bubbles on the brain as we prioritized the zooming in feature which would then disregard the effectiveness of such a legend.</p>
+            <br>
+            <p>We used our initial idea as a second tab to enhance the project. Using line plots and an average line for all 6 channels, we made a graph to represent the data collected. However, this was not the most optimum as it appeared to be quite complex and didn’t satisfy our requirement for a visualisation to offer intuitive benefits immediately using simplicity. Thus, we decided to add it as a secondary page only for those who want to look further into the data all together and compare as many of the lines as possible with the interactive line selector we created. Instead of this complex graph, on the first page we added drop down lists to choose the participant and channel to display only EEG Data graphs that are relevant to viewers.</p>
+            <br>
+            <p>Lastly, we also considered alternate aesthetic choices as we played with colour schemes, font sizes, and layout possibilities but following through our goal of clarity with style, we decided a darker background emphasises our white coloured containers with visualisations and provided a professional look to our site which increases our visual credibility. We stuck to simple and typical fonts as science research usually does not use very extravagant and distracting features.</p>
+            <br>
+            <h3>Development Process</h3>
+            <p>We first started by combing through datasets to find something intriguing for the entire group, as we narrowed it down for the checkpoint submission, we looked at the data for each option and chose the one that we found easiest to understand and that resonated with one of our team member’s research interests.</p>
+            <br>
+            <p>Then, we each explored the datasets and contributed equally to the checkpoint submissions by making our own graphs and submitting the most distinct ones.</p>
+            <br>
+            <p>However, after our checkpoint submission, we unanimously decided to choose another dataset, one with which we could create a more innovative visualization.</p>
+            <br>
+            <p>We then began our process of exploration, ideation, discussion. Then getting down to the actual code, one member took the lead and got us started on the project by creating a site and starting some of the visualizations. He then assigned tasks to us and as we cross checked each other’s code and suggested improvements, we managed to create our beloved project 3. Each member spent an average of 5 hours on this project.</p>
+            <br>
+            <p>Some of our main challenges included getting an innovative idea that was relevant to our data and provided some benefit compared to just statistical graphs, handling large amounts of data and working with lots of code by 4 people which had to be very well commented and organised, and, thirdly, fixing the pesky small bugs that took us forever to spot in our body of lines of code for the project.</p>
+          </div>
         </div>
 
         <!-- 3D Brain Visualization -->
@@ -188,57 +217,45 @@
 
   <!-- Tab switching script -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const brainViewTab = document.getElementById('brain-view-tab');
       const cumulativePlotTab = document.getElementById('cumulative-plot-tab');
+      const writeupTab = document.getElementById('project-writeup-tab');
+
       const brainViewContent = document.getElementById('brain-view-content');
       const cumulativePlotContent = document.getElementById('cumulative-plot-content');
+      const writeupContent = document.getElementById('project-writeup-content');
+
       const appContainer = document.getElementById('app-container');
       const lineChartContainer = document.getElementById('line-chart-container');
 
-      // Function to activate brain view tab
-      function activateBrainView() {
-        // Update tabs
-        brainViewTab.classList.add('active');
-        cumulativePlotTab.classList.remove('active');
-        
-        // Update content
-        brainViewContent.classList.add('active');
-        cumulativePlotContent.classList.remove('active');
-        
-        // Show bottom chart
-        lineChartContainer.style.display = 'block';
-        
-        // Update body class
-        appContainer.classList.remove('cumulative-active');
+      function activateTab(activeTab, activeContent) {
+        [brainViewTab, cumulativePlotTab, writeupTab].forEach(tab => tab.classList.remove('active'));
+        [brainViewContent, cumulativePlotContent, writeupContent].forEach(content => content.classList.remove('active'));
+
+        activeTab.classList.add('active');
+        activeContent.classList.add('active');
+
+        if (activeTab === brainViewTab) {
+          lineChartContainer.style.display = 'block';
+          appContainer.classList.remove('cumulative-active');
+        } else {
+          lineChartContainer.style.display = 'none';
+          appContainer.classList.add('cumulative-active');
+        }
       }
-      
-      // Function to activate cumulative plot tab
-      function activateCumulativePlot() {
-        // Update tabs
-        brainViewTab.classList.remove('active');
-        cumulativePlotTab.classList.add('active');
-        
-        // Update content
-        brainViewContent.classList.remove('active');
-        cumulativePlotContent.classList.add('active');
-        
-        // Hide bottom chart
-        lineChartContainer.style.display = 'none';
-        
-        // Update body class
-        appContainer.classList.add('cumulative-active');
-      }
-      
-      // Add click event listeners
-      brainViewTab.addEventListener('click', activateBrainView);
-      cumulativePlotTab.addEventListener('click', activateCumulativePlot);
-      
+
+      brainViewTab.addEventListener('click', () => activateTab(brainViewTab, brainViewContent));
+      cumulativePlotTab.addEventListener('click', () => activateTab(cumulativePlotTab, cumulativePlotContent));
+      writeupTab.addEventListener('click', () => activateTab(writeupTab, writeupContent));
+
       // Initial state
       if (brainViewTab.classList.contains('active')) {
-        activateBrainView();
+        activateTab(brainViewTab, brainViewContent);
       } else if (cumulativePlotTab.classList.contains('active')) {
-        activateCumulativePlot();
+        activateTab(cumulativePlotTab, cumulativePlotContent);
+      } else if (writeupTab.classList.contains('active')) {
+        activateTab(writeupTab, writeupContent);
       }
     });
   </script>
