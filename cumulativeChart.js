@@ -56,6 +56,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
+  const refreshChartButton = document.getElementById('refresh-chart');
+  if (refreshChartButton) {
+    refreshChartButton.addEventListener('click', () => {
+      if (window.cumulativeChart) {
+        const prevTransform = window.cumulativeChart.currentTransform || d3.zoomIdentity;
+        const newData = generateEEGData();
+        window.cumulativeChart.data = newData;
+        renderChart(newData, window.cumulativeChart.channels, prevTransform);
+      }
+    });
+  }
+
   console.log("Multi-Channel EEG Chart initialized successfully");
 });
 
@@ -194,13 +206,14 @@ function setupChannelToggleListeners() {
       }
       
       // Re-render chart
-      renderChart(window.cumulativeChart.data, window.cumulativeChart.channels);
+      const currentTransform = window.cumulativeChart.currentTransform || d3.zoomIdentity;
+      renderChart(window.cumulativeChart.data, window.cumulativeChart.channels, currentTransform);
     });
   });
 }
 
 // Render D3 chart
-function renderChart(data, channels) {
+function renderChart(data, channels, transform = d3.zoomIdentity) {
   // Set up the svg
   const svg = d3.select('#cumulative-svg');
   svg.selectAll('*').remove(); // Clear previous content
@@ -488,11 +501,13 @@ function renderChart(data, channels) {
     .on('zoom', zoomed);
   
   svg.call(zoom);
-  
-  // Store zoom in global variable for reset button
   window.cumulativeChart.zoom = zoom;
+  svg.call(zoom.transform, transform); // apply transform AFTER assigning zoom
+  window.cumulativeChart.currentTransform = transform;
   
   function zoomed(event) {
+    window.cumulativeChart.currentTransform = event.transform;
+
     // Create new scales based on event
     let newXScale = event.transform.rescaleX(xScale);
     const [xMin, xMax] = xScale.domain();
