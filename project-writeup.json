@@ -10,7 +10,7 @@
       {
         "heading": "Design Rationale",
         "paragraphs": [
-          "We used animated bubbles on a 3D brain to represent channel intensity—bubbles grow or jitter more when signals vary rapidly. This movement-based encoding helped communicate activity levels more intuitively than static color or size alone. Color was kept consistent across all views to preserve recognition, and we emphasized interaction: users can rotate the brain and zoom into any view. We skipped a legend for bubble size because zooming made it context-dependent.",
+          "We used animated bubbles on a 3D brain—built using three.js—to represent channel intensity. Bubbles grow or jitter more when signals vary rapidly. This movement-based encoding helped communicate activity levels more intuitively than static color or size alone. Color was kept consistent across all views to preserve recognition, and we emphasized interaction: users can rotate the brain and zoom into any view. We skipped a legend for bubble size because zooming made it context-dependent.",
           "In the second tab, we included a multi-line plot with confidence intervals. While complex, it supports deeper comparison across channels. We made this optional to keep the main view clean and user-friendly. Dropdown filters help narrow focus to relevant participants or channels.",
           "Stylistically, we used a dark background with white cards to improve contrast and create a research-oriented visual identity."
         ]
