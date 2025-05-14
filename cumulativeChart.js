@@ -282,7 +282,7 @@ function renderChart(data, channels) {
   // Add axes
   chart.append('g')
     .attr('class', 'x-axis')
-    .attr('transform', `translate(0,${height})`)
+    .attr('transform', `translate(0,${yScale(0)})`)
     .call(d3.axisBottom(xScale).ticks(10).tickFormat(d => `${d}`));
   
   chart.append('g')
@@ -470,7 +470,7 @@ function renderChart(data, channels) {
   
   // Add zoom behavior
   const zoom = d3.zoom()
-    .scaleExtent([1, 8])
+
     .extent([[0, 0], [width, height]])
     .on('zoom', zoomed);
   
