@@ -221,6 +221,18 @@ function renderChart(data, channels) {
     .attr('height', containerHeight)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
+
+  // Add clipping path
+  svg.append("defs")
+    .append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+  // Add a separate group for clipped content
+  const clippedGroup = chart.append("g")
+    .attr("clip-path", "url(#clip)");
   
   // Create scales
   const xScale = d3.scaleLinear()
@@ -331,14 +343,14 @@ function renderChart(data, channels) {
     }));
     
     // Draw confidence interval area
-    chart.append('path')
+    clippedGroup.append('path')
       .datum(channelData)
       .attr('fill', channel.color)
       .attr('fill-opacity', 0.2)
       .attr('d', area);
     
     // Draw line
-    chart.append('path')
+    clippedGroup.append('path')
       .datum(channelData)
       .attr('fill', 'none')
       .attr('stroke', channel.color)
@@ -482,7 +494,14 @@ function renderChart(data, channels) {
   
   function zoomed(event) {
     // Create new scales based on event
-    const newXScale = event.transform.rescaleX(xScale);
+    let newXScale = event.transform.rescaleX(xScale);
+    const [xMin, xMax] = xScale.domain();
+    newXScale = d3.scaleLinear()
+      .domain([
+        Math.max(xMin, newXScale.domain()[0]),
+        Math.min(xMax, newXScale.domain()[1])
+      ])
+      .range(xScale.range());
     
     // Update axes
     chart.select('.x-axis').call(d3.axisBottom(newXScale).tickFormat(d => `${d}`));
