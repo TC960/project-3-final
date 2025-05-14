@@ -470,7 +470,8 @@ function renderChart(data, channels) {
   
   // Add zoom behavior
   const zoom = d3.zoom()
-
+    .scaleExtent([1, 8])
+    .translateExtent([[0, 0], [width, height]])
     .extent([[0, 0], [width, height]])
     .on('zoom', zoomed);
   
