@@ -304,18 +304,19 @@ html, body {
   gap: 0.5rem;
 }
 
-/* Channel list */
 .channel-list {
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
   padding: 0.25rem 0;
 }
 
 .channel-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  flex: 0 1 calc(33.33% - 1rem); /* 3 per row */
+  min-width: 90px;
 }
 
 .channel-dot {
@@ -747,6 +748,7 @@ html, body {
 
 /* Card styling for hover effects with transitions */
 #info-panel .card {
+  max-height: 48px;
   background-color: white;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
@@ -782,25 +784,36 @@ html, body {
 }
 
 /* Hover state - smooth expansion */
-#info-panel .card:hover {
+/* #info-panel .card:hover {
+  box-shadow: var(--shadow-md);
+  max-height: 300px;
+} */
+
+/* #info-panel .card:hover .card-content {
+  max-height: 200px;
+  opacity: 1;
+  padding: 1rem 1.25rem;
+} */
+
+#info-panel .card:hover .card-header::after {
+  content: '–';
+  color: var(--primary);
+}
+
+#info-panel .card.expanded {
+  max-height: 300px;
   box-shadow: var(--shadow-md);
 }
 
-#info-panel .card:hover .card-content {
-  max-height: 200px; /* Adjust based on your content */
+#info-panel .card.expanded .card-content {
+  max-height: 200px;
   opacity: 1;
   padding: 1rem 1.25rem;
 }
 
-#info-panel .card:hover .card-header::after {
-  content: '−';
+#info-panel .card.expanded .card-header::after {
+  content: '–';
   color: var(--primary);
-}
-
-/* Make channel list more compact */
-.channel-list {
-  gap: 0.75rem;
-  padding: 0;
 }
 
 .channel-item {

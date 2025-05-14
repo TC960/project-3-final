@@ -93,6 +93,25 @@
       <aside id="info-panel">
         <div class="card">
           <div class="card-header">
+            <h2>About</h2>
+          </div>
+          <div class="card-content">
+            <p>Real-time EEG visualized on 3D brain with dynamic electrode dots.</p>
+            
+            <!-- <div class="info-item">
+              <span class="info-label">Data Source:</span>
+              <span class="info-value">Experiment_1/A1</span>
+            </div> -->
+            
+            <div class="info-item">
+              <span class="info-label">Interactions:</span>
+              <span class="info-value">Click and drag to rotate, scroll to zoom.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
             <h2>EEG Channels</h2>
           </div>
           <div class="card-content">
@@ -128,35 +147,10 @@
 
         <div class="card">
           <div class="card-header">
-            <h2>About</h2>
-          </div>
-          <div class="card-content">
-            <p>This visualizer displays real-time EEG data on a 3D brain model. The colored dots represent electrodes, with size and color changing based on signal intensity.</p>
-            
-            <div class="info-item">
-              <span class="info-label">Data Source:</span>
-              <span class="info-value">Experiment_1/A1</span>
-            </div>
-            
-            <div class="info-item">
-              <span class="info-label">Interactions:</span>
-              <span class="info-value">Click and drag to rotate, scroll to zoom.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
             <h2>Signal Legend</h2>
           </div>
           <div class="card-content">
-            <div class="legend">
-              <div class="legend-gradient"></div>
-              <div class="legend-labels">
-                <span>Low</span>
-                <span>High</span>
-              </div>
-            </div>
+            <p class="signal-hover-note">Signal intensity is encoded by electrode size.</p>
           </div>
         </div>
       </aside>
@@ -272,5 +266,50 @@
 
   <!-- Script to load writeup from JSON -->
   <script src="writeup-loader.js"></script>
+  
+  <!-- Script for smooth hover transition over cards in side panel -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const infoPanel = document.getElementById('info-panel');
+      const cards = Array.from(infoPanel.querySelectorAll('.card'));
+
+      // Reset all cards to collapsed
+      function collapseAll() {
+        cards.forEach(card => {
+          card.classList.remove('expanded');
+        });
+      }
+
+      infoPanel.addEventListener('mousemove', e => {
+        const mouseY = e.clientY;
+
+        let closest = null;
+        let minDist = Infinity;
+
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+
+          if (mouseY >= rect.top && mouseY <= rect.bottom) {
+            minDist = 0;
+            closest = card;
+          } else {
+            const dist = Math.min(Math.abs(mouseY - rect.top), Math.abs(mouseY - rect.bottom));
+            if (dist < minDist) {
+              minDist = dist;
+              closest = card;
+            }
+          }
+        });
+
+        collapseAll();
+        if (closest) closest.classList.add('expanded');
+      });
+
+      // Collapse all if mouse leaves the panel
+      infoPanel.addEventListener('mouseleave', () => {
+        collapseAll();
+      });
+    });
+  </script>
 </body>
 </html>
