@@ -731,3 +731,130 @@ html, body {
     display: none;
   }
 }
+
+
+
+/* Side Panel CSS with Smooth Transitions */
+
+/* Make the info panel fit without scrolling */
+#info-panel {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Reduced gap between cards */
+  height: auto;
+}
+
+/* Card styling for hover effects with transitions */
+#info-panel .card {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--gray-100);
+  transition: all 0.3s ease;
+}
+
+/* Default state - collapsed cards */
+#info-panel .card .card-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding: 0 1.25rem;
+}
+
+#info-panel .card .card-header {
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Add indicator for expandable content */
+#info-panel .card .card-header::after {
+  content: '+';
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  transition: all 0.3s ease;
+}
+
+/* Hover state - smooth expansion */
+#info-panel .card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+#info-panel .card:hover .card-content {
+  max-height: 200px; /* Adjust based on your content */
+  opacity: 1;
+  padding: 1rem 1.25rem;
+}
+
+#info-panel .card:hover .card-header::after {
+  content: '−';
+  color: var(--primary);
+}
+
+/* Make channel list more compact */
+.channel-list {
+  gap: 0.75rem;
+  padding: 0;
+}
+
+.channel-item {
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Color coded channel text */
+.channel-item .channel-name {
+  font-weight: 600;
+  flex: 1;
+  padding-left: 0.5rem;
+}
+
+/* Apply channel colors to the text instead of using dots */
+.channel-item:nth-child(1) .channel-name {
+  color: var(--electrode-tp9);
+}
+
+.channel-item:nth-child(2) .channel-name {
+  color: var(--electrode-af7);
+}
+
+.channel-item:nth-child(3) .channel-name {
+  color: var(--electrode-af8);
+}
+
+.channel-item:nth-child(4) .channel-name {
+  color: var(--electrode-tp10);
+}
+
+.channel-item:nth-child(5) .channel-name {
+  color: var(--electrode-raux);
+}
+
+/* Hide the values */
+.channel-value {
+  display: none;
+}
+
+/* Make legend more compact */
+.legend-gradient {
+  height: 8px;
+}
+
+/* Adjust card headers to be more compact */
+.card-header h2 {
+  font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  #info-panel {
+    width: 280px;
+  }
+}
